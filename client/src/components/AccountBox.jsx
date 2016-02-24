@@ -6,7 +6,7 @@ var AccountBox = React.createClass({
     return(
       <div>
         <h3> Total {this.props.type}: £{this.props.bank.totalCash(this.props.type)} </h3>
-        <AccountsList type={this.props.type} bank={this.props.bank}></AccountsList>
+        <AccountsList type={this.props.type} onSelectAccount={this.props.onSelectAccount} bank={this.props.bank}></AccountsList>
       </div>
     )
   }

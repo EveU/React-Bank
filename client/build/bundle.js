@@ -19855,12 +19855,17 @@
 	
 	var Bank = __webpack_require__(1);
 	var AccountBox = __webpack_require__(163);
+	var AccountDisplay = __webpack_require__(165);
 	
 	var BankBox = React.createClass({
 	  displayName: 'BankBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { accounts: sampleAccounts };
+	    return { accounts: sampleAccounts, currentAccount: null };
+	  },
+	
+	  setCurrentAccount: function setCurrentAccount(account) {
+	    this.setState({ currentAccount: account });
 	  },
 	
 	  render: function render() {
@@ -19906,8 +19911,9 @@
 	        bank.totalCash(),
 	        ' '
 	      ),
-	      React.createElement(AccountBox, { type: "business", bank: bank }),
-	      React.createElement(AccountBox, { type: "personal", bank: bank })
+	      React.createElement(AccountBox, { type: "business", bank: bank, onSelectAccount: this.setCurrentAccount }),
+	      React.createElement(AccountBox, { type: "personal", bank: bank, onSelectAccount: this.setCurrentAccount }),
+	      React.createElement(AccountDisplay, { account: this.state.currentAccount })
 	    );
 	  }
 	});
@@ -19939,7 +19945,7 @@
 	        this.props.bank.totalCash(this.props.type),
 	        ' '
 	      ),
-	      React.createElement(AccountsList, { type: this.props.type, bank: this.props.bank })
+	      React.createElement(AccountsList, { type: this.props.type, onSelectAccount: this.props.onSelectAccount, bank: this.props.bank })
 	    );
 	  }
 	});
@@ -19957,6 +19963,21 @@
 	var AccountsList = React.createClass({
 	  displayName: "AccountsList",
 	
+	
+	  getInitialState: function getInitialState() {
+	    return { selectedIndex: null };
+	  },
+	
+	  handleClick: function handleClick(e) {
+	    e.preventDefault();
+	    // console.log('e', e.target);
+	    var newIndex = e.target.value;
+	    // console.log(newIndex);
+	    this.setState({ selectedIndex: newIndex });
+	    var currentAccount = this.props.bank.filteredAccounts(this.props.type)[newIndex];
+	    // console.log(currentAccount);
+	    this.props.onSelectAccount(currentAccount);
+	  },
 	
 	  listAccounts: function listAccounts() {
 	    var accounts = this.props.bank.filteredAccounts(this.props.type);
@@ -19986,13 +20007,20 @@
 	      }
 	    }
 	
-	    return listAccounts.map(function (value) {
+	    return listAccounts.map(function (value, index) {
 	      return React.createElement(
 	        "li",
-	        { key: value },
-	        value
+	        { key: index },
+	        " ",
+	        value,
+	        " ",
+	        React.createElement(
+	          "button",
+	          { value: index, onClick: this.handleClick },
+	          "Show more info"
+	        )
 	      );
-	    });
+	    }.bind(this));
 	  },
 	
 	  render: function render() {
@@ -20009,6 +20037,54 @@
 	});
 	
 	module.exports = AccountsList;
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(4);
+	
+	var AccountDisplay = React.createClass({
+	  displayName: 'AccountDisplay',
+	
+	  render: function render() {
+	    if (!this.props.account) {
+	      return React.createElement(
+	        'h2',
+	        null,
+	        'Click on "show more info" to see more details on an account.'
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Account Details:'
+	      ),
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Account is owned by: ',
+	        this.props.account.owner
+	      ),
+	      React.createElement(
+	        'h3',
+	        null,
+	        'This account is of type: ',
+	        this.props.account.type,
+	        React.createElement('br', null),
+	        'Balance: £',
+	        this.props.account.amount
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = AccountDisplay;
 
 /***/ }
 /******/ ]);
