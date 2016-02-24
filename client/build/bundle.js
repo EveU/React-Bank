@@ -19950,17 +19950,17 @@
 /* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(4);
 	
 	var AccountsList = React.createClass({
-	  displayName: 'AccountsList',
+	  displayName: "AccountsList",
 	
 	
 	  listAccounts: function listAccounts() {
 	    var accounts = this.props.bank.filteredAccounts(this.props.type);
-	    console.log(accounts);
+	    var listAccounts = [];
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
@@ -19969,14 +19969,7 @@
 	      for (var _iterator = accounts[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	        var account = _step.value;
 	
-	        console.log(account);
-	        return React.createElement(
-	          'li',
-	          null,
-	          account.owner,
-	          '  £',
-	          account.amount
-	        );
+	        listAccounts.push(account.owner + " - £" + account.amount);
 	      }
 	    } catch (err) {
 	      _didIteratorError = true;
@@ -19992,13 +19985,25 @@
 	        }
 	      }
 	    }
+	
+	    return listAccounts.map(function (value) {
+	      return React.createElement(
+	        "li",
+	        { key: value },
+	        value
+	      );
+	    });
 	  },
 	
 	  render: function render() {
 	    return React.createElement(
-	      'ul',
+	      "ul",
 	      null,
-	      this.listAccounts()
+	      React.createElement(
+	        "h4",
+	        null,
+	        this.listAccounts()
+	      )
 	    );
 	  }
 	});

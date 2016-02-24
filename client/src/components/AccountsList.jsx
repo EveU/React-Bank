@@ -4,17 +4,19 @@ var AccountsList = React.createClass({
 
   listAccounts: function(){
     var accounts = this.props.bank.filteredAccounts(this.props.type)
-    console.log(accounts);
+    var listAccounts = [];
     for(var account of accounts){
-      console.log(account);
-      return(<li>{account.owner}  £{account.amount}</li>);
+      listAccounts.push(account.owner + " - £" + account.amount);
     }
+      return listAccounts.map(function(value){
+        return <li key={value}>{value}</li>
+      });
   },
 
   render: function(){
     return(
       <ul>
-        {this.listAccounts()}
+        <h4>{this.listAccounts()}</h4>
       </ul>
     )
   }
