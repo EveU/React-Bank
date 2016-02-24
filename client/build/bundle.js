@@ -19854,6 +19854,7 @@
 	var sampleAccounts = __webpack_require__(3);
 	
 	var Bank = __webpack_require__(1);
+	var AccountBox = __webpack_require__(163);
 	
 	var BankBox = React.createClass({
 	  displayName: 'BankBox',
@@ -19904,12 +19905,105 @@
 	        ' Total: £',
 	        bank.totalCash(),
 	        ' '
-	      )
+	      ),
+	      React.createElement(AccountBox, { type: "business", bank: bank }),
+	      React.createElement(AccountBox, { type: "personal", bank: bank })
 	    );
 	  }
 	});
 	
 	module.exports = BankBox;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(4);
+	var AccountsList = __webpack_require__(164);
+	
+	var AccountBox = React.createClass({
+	  displayName: 'AccountBox',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h3',
+	        null,
+	        ' Total ',
+	        this.props.type,
+	        ': £',
+	        this.props.bank.totalCash(this.props.type),
+	        ' '
+	      ),
+	      React.createElement(AccountsList, { type: this.props.type, bank: this.props.bank })
+	    );
+	  }
+	});
+	
+	module.exports = AccountBox;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(4);
+	
+	var AccountsList = React.createClass({
+	  displayName: 'AccountsList',
+	
+	
+	  listAccounts: function listAccounts() {
+	    var accounts = this.props.bank.filteredAccounts(this.props.type);
+	    console.log(accounts);
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+	
+	    try {
+	      for (var _iterator = accounts[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var account = _step.value;
+	
+	        console.log(account);
+	        return React.createElement(
+	          'li',
+	          null,
+	          account.owner,
+	          '  £',
+	          account.amount
+	        );
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      'ul',
+	      null,
+	      this.listAccounts()
+	    );
+	  }
+	});
+	
+	module.exports = AccountsList;
 
 /***/ }
 /******/ ]);
