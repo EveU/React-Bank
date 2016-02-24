@@ -2,7 +2,7 @@ var React = require('react');
 
 var AccountDisplay = React.createClass({
   render: function(){
-    if(!this.props.account){return <h2>Click on "show more info" to see more details on an account.</h2>}
+    if(!this.props.account){return <h2>Click on "More info" to see more details on an account.</h2>}
     return(
       <div>
       <h1>Account Details:</h1>

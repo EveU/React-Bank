@@ -20017,7 +20017,13 @@
 	        React.createElement(
 	          "button",
 	          { value: index, onClick: this.handleClick },
-	          "Show more info"
+	          "More info"
+	        ),
+	        " ",
+	        React.createElement(
+	          "button",
+	          null,
+	          "Add interest"
 	        )
 	      );
 	    }.bind(this));
@@ -20054,7 +20060,7 @@
 	      return React.createElement(
 	        'h2',
 	        null,
-	        'Click on "show more info" to see more details on an account.'
+	        'Click on "More info" to see more details on an account.'
 	      );
 	    }
 	    return React.createElement(

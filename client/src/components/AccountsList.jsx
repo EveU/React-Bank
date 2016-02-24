@@ -24,7 +24,7 @@ var AccountsList = React.createClass({
       listAccounts.push(account.owner + " - £" + account.amount);
     }
       return listAccounts.map(function(value, index){
-        return <li key={index}> {value} <button value={index} onClick={this.handleClick}>Show more info</button></li>
+        return <li key={index}> {value} <button value={index} onClick={this.handleClick}>More info</button> <button>Add interest</button></li>
       }.bind(this));
   },
 
